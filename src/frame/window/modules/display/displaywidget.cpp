@@ -131,6 +131,7 @@ void DisplayWidget::onMonitorListChanged()
 
 void DisplayWidget::initMenuUI()
 {
+    qDebug() << "---> initMenuUI";
     m_multiModel->clear();
     m_singleModel->clear();
 
@@ -177,6 +178,7 @@ void DisplayWidget::initMenuUI()
                              };
     m_singleMenuList << refreshMenu;
 
+    qDebug() << "---> m_model->touchscreenList()" << m_model->touchscreenList().isEmpty();
     if ((m_model && !m_model->touchscreenList().isEmpty()) && !IsServerSystem) {
         //~ contents_path /display/Touch Screen
         ListSubItem touchscreenMenu = {"dcc_touchscreen",tr("Touch Screen"),

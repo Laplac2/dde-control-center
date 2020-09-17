@@ -56,14 +56,14 @@ DatetimeWidget::~DatetimeWidget()
 
 void DatetimeWidget::init()
 {
+    // setStyleSheet("background-color: purple"); // zzz-color
     QList<QPair<QString, QString>> menuIconText;
     menuIconText = {
-        { "dcc_time_zone", tr("Timezone List")},
+        {"dcc_time_zone", tr("Timezone List")},
         //~ contents_path /datetime/Time Settings
-        { "dcc_setting", tr("Time Settings")} ,
+        {"dcc_setting", tr("Time Settings")},
         //~ contents_path /datetime/Format Settings
-        { "dcc_time_format", tr("Time Format")}
-    };
+        {"dcc_time_format", tr("Time Format")}};
 
     DStandardItem *item = nullptr;
     auto model = new QStandardItemModel(this);
@@ -73,12 +73,12 @@ void DatetimeWidget::init()
         model->appendRow(item);
     }
 
-    m_itemList.append({menuIconText.at(0).first, menuIconText.at(0).second,QMetaMethod::fromSignal(&DatetimeWidget::requestTimezoneList)});
-    m_itemList.append({menuIconText.at(1).first, menuIconText.at(1).second,QMetaMethod::fromSignal(&DatetimeWidget::requestTimeSetting)});
-    m_itemList.append({menuIconText.at(2).first, menuIconText.at(2).second,QMetaMethod::fromSignal(&DatetimeWidget::requestFormatSetting)});
+    m_itemList.append({menuIconText.at(0).first, menuIconText.at(0).second, QMetaMethod::fromSignal(&DatetimeWidget::requestTimezoneList)});
+    m_itemList.append({menuIconText.at(1).first, menuIconText.at(1).second, QMetaMethod::fromSignal(&DatetimeWidget::requestTimeSetting)});
+    m_itemList.append({menuIconText.at(2).first, menuIconText.at(2).second, QMetaMethod::fromSignal(&DatetimeWidget::requestFormatSetting)});
 
-    if(InsertPlugin::instance()->needPushPlugin("Date and Time"))
-        InsertPlugin::instance()->pushPlugin(model,m_itemList);
+    if (InsertPlugin::instance()->needPushPlugin("Date and Time"))
+        InsertPlugin::instance()->pushPlugin(model, m_itemList);
 
     m_listview->setAccessibleName("List_datetimesettingList");
     m_listview->setFrameShape(QFrame::NoFrame);
@@ -145,11 +145,12 @@ void DatetimeWidget::setDefaultWidget()
 
 void DatetimeWidget::onItemClicked(const QModelIndex &index)
 {
-    if (m_lastIndex == index) return;
+    if (m_lastIndex == index)
+        return;
 
     m_lastIndex = index;
 
-    m_itemList[index.row()].itemSignal.invoke(m_itemList[index.row()].pulgin?m_itemList[index.row()].pulgin:this);
+    m_itemList[index.row()].itemSignal.invoke(m_itemList[index.row()].pulgin ? m_itemList[index.row()].pulgin : this);
     //Q_EMIT requestPushWidget(index.row());
 
     m_listview->resetStatus(index);

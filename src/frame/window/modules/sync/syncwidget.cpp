@@ -21,6 +21,7 @@ SyncWidget::SyncWidget(QWidget *parent)
     , m_indexPage(new IndexPage)
     , m_cnonlyPage(new LogoutPage)
 {
+    // setStyleSheet("background-color: pink"); // zzz-color
     m_mainLayout->setMargin(0);
     m_mainLayout->setSpacing(0);
 

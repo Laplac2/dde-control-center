@@ -109,23 +109,27 @@ MainWindow::MainWindow(QWidget *parent)
     , m_widgetName("")
     , m_backwardBtn(nullptr)
 {
+    qDebug() << "---> maintain window";
     //Initialize view and layout structure
     DMainWindow::installEventFilter(this);
 
-    QWidget *content = new QWidget(this);
+    QWidget *content = new QWidget(this); // 菜单的底
     content->setObjectName("contentwindow");
-    m_contentLayout = new QHBoxLayout(content);
-    m_contentLayout->setContentsMargins(0, 0, 0, 0);
-    m_contentLayout->setSpacing(0);
-    m_rightContentLayout = new QHBoxLayout();
-    m_rightContentLayout->setContentsMargins(0, 0, 0, 0);
+    // content->setStyleSheet("background-color: pink"); // zzz-color
+    m_contentLayout = new QHBoxLayout(content);         // 整个菜单布局，两列横向布局，分为左边的导航部分和右边的二三级菜单部分
+    m_contentLayout->setContentsMargins(0, 0, 0, 0);    // 整个菜单内容与边框距离
+    m_contentLayout->setSpacing(0);                     // 导航菜单与右边菜单两个部分之间的间距
+    m_rightContentLayout = new QHBoxLayout();           // 右边菜单布局
+    m_rightContentLayout->setContentsMargins(0,0,0,0);  // 右边布局到外边框的距离：左，上，右，下
 
     m_rightView = new DBackgroundGroup(m_rightContentLayout);
+    // m_rightView->setStyleSheet("background-color: green");    // zzz-color
     m_rightView->setObjectName("modulepage");
-    m_rightView->setItemSpacing(2);
-    m_rightView->setContentsMargins(10, 10, 10, 10);
+    m_rightView->setItemSpacing(2);                     // 右边布局两个部分之间的间距
+    m_rightView->setContentsMargins(10, 10, 10, 10);    // 右边菜单到外边框的距离：左，上，右，下
 
-    m_navView = new dcc::widgets::MultiSelectListView(this);
+    m_navView = new dcc::widgets::MultiSelectListView(this); // 导航菜单
+    // m_navView->setStyleSheet("background-color: yellow");    // zzz-color
     m_navView->setAccessibleName("Form_mainmenulist");
     m_navView->setFrameShape(QFrame::Shape::NoFrame);
     m_navView->setEditTriggers(QListView::NoEditTriggers);
@@ -137,6 +141,7 @@ MainWindow::MainWindow(QWidget *parent)
     sp.setScrollMetric(QScrollerProperties::VerticalOvershootPolicy, QScrollerProperties::OvershootAlwaysOff);
     scroller->setScrollerProperties(sp);
 
+    /* 设置导航菜单与右边菜单拉伸比例为1:5，当拉伸控制中心时，优先拉伸右边菜单 */
     m_contentLayout->addWidget(m_navView, 1);
     m_contentLayout->addWidget(m_rightView, 5);
 
@@ -746,6 +751,7 @@ void MainWindow::resetNavList(bool isIconMode)
         m_navView->setSpacing(20);
         m_navView->clearSelection();
         m_navView->setSelectionMode(QAbstractItemView::NoSelection);
+        // m_navView->setStyleSheet("background-color: blue"); // zzz-color
 
         //Icon模式，"update"使用右上角角标Margin
         for (auto data : m_remindeSubscriptList) {
@@ -775,6 +781,7 @@ void MainWindow::resetNavList(bool isIconMode)
         m_navView->setItemSize(ListViweItemSize_ListMode);
         m_navView->setSpacing(0);
         m_navView->setSelectionMode(QAbstractItemView::SingleSelection);
+        // m_navView->setStyleSheet("background-color: blue"); // zzz-color
 
         //List模式，"update"使用统一Margin
         for (auto data : m_remindeSubscriptList) {
@@ -1046,6 +1053,7 @@ void MainWindow::pushNormalWidget(ModuleInterface *const inter, QWidget *const w
     popAllWidgets(1);
     //Set the newly added page to fill the blank area
     w->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    // w->setStyleSheet("background-color: purple"); // zzz-color
 
     m_contentStack.push({inter, w});
     m_rightContentLayout->addWidget(w, m_contentStack.size() == 1 ? 3 : 7);

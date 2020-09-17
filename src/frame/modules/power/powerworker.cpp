@@ -108,14 +108,14 @@ void PowerWorker::active()
     m_powerModel->setHighPerformanceSupported(m_sysPowerInter->isHighPerformanceSupported());
     m_powerModel->setmaxBacklightBrightness(m_displayInter->maxBacklightBrightness());
 
-    setScreenBlackDelayToModelOnPower(m_powerInter->linePowerScreenBlackDelay());
-    setSleepDelayToModelOnPower(m_powerInter->linePowerSleepDelay());
+    setScreenBlackDelayToModelOnPower(m_powerInter->linePowerScreenBlackDelay()); // zzz
+    setSleepDelayToModelOnPower(m_powerInter->linePowerSleepDelay());             // zzz
 
-    setScreenBlackDelayToModelOnBattery(m_powerInter->batteryScreenBlackDelay());
-    setSleepDelayToModelOnBattery(m_powerInter->batterySleepDelay());
+    setScreenBlackDelayToModelOnBattery(m_powerInter->batteryScreenBlackDelay()); // zzz
+    setSleepDelayToModelOnBattery(m_powerInter->batterySleepDelay());             // zzz
 
-    setResponseBatteryLockScreenDelay(m_powerInter->batteryLockDelay());
-    setResponsePowerLockScreenDelay(m_powerInter->linePowerLockDelay());
+    setResponseBatteryLockScreenDelay(m_powerInter->batteryLockDelay()); // zzz
+    setResponsePowerLockScreenDelay(m_powerInter->linePowerLockDelay()); // zzz
 
 #ifndef DCC_DISABLE_POWERSAVE
     m_powerModel->setAutoPowerSaveMode(m_sysPowerInter->powerSavingModeAuto());

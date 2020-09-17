@@ -198,6 +198,7 @@ void DisplayModel::setBrightnessMap(const BrightnessMap &brightnessMap)
 
 void DisplayModel::setTouchscreenList(const TouchscreenInfoList &touchscreenList)
 {
+    qDebug() << "---> setTouchscreenList()" << touchscreenList.size();
     if (touchscreenList == m_touchscreenList) return;
 
     m_touchscreenList = touchscreenList;

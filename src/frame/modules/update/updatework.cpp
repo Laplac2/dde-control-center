@@ -1128,7 +1128,7 @@ AppUpdateInfo UpdateWorker::getInfo(const AppUpdateInfo &packageInfo, const QStr
             }
         }
     }
-
+    qDebug()<<"system info:"<<info.m_changelog;
     return info;
 }
 

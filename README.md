@@ -91,3 +91,17 @@ We encourage you to report issues and contribute changes
 ## License
 
 DDE Control Center is licensed under [GPLv3](LICENSE).
+
+## Architecture
+
+# PowerModule
+
+PowerModule包含PowerModel、PowerWorker、PowerWiget
+
+PowerModule --- 相当于大管家，是整个电源模块的基础
+PowerModel  --- 电源模块本身界面各种数据的设置与获取
+PowerWorker --- 电源模块与后端的数据交换，各种干活的角色
+PowerWiget  --- 电源模块窗口布局部分
+
+MainWindow::initAllModule -> MainWindow::modulePreInitialize -> PowerModule::preInitialize -> PowerWorker::active
+在初始化的时候通过com::deepin::daemon::Power获取默认值
