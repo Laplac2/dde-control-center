@@ -154,7 +154,7 @@ QStringList PowerModule::availPage() const
     return list;
 }
 
-void PowerModule::showGeneral()
+void PowerModule::showGeneral() // 通用
 {
     qDebug() << Q_FUNC_INFO;
 
@@ -180,7 +180,7 @@ void PowerModule::showGeneral()
     connect(general, &GeneralWidget::requestSetPowerPlan, m_work, &PowerWorker::setPowerPlan);
 }
 
-void PowerModule::showUseElectric()
+void PowerModule::showUseElectric() // 用电源
 {
     qDebug() << Q_FUNC_INFO;
 
@@ -192,10 +192,10 @@ void PowerModule::showUseElectric()
     }
 
     electric->setAutoLockScreenOnPower(m_model->getPowerLockScreenDelay());
-    connect(electric, &UseElectricWidget::requestSetScreenBlackDelayOnPower, m_work, &PowerWorker::setScreenBlackDelayOnPower);
-    connect(electric, &UseElectricWidget::requestSetSleepDelayOnPower, m_work, &PowerWorker::setSleepDelayOnPower);
-    connect(electric, &UseElectricWidget::requestSetSleepOnLidOnPowerClosed, m_work, &PowerWorker::setSleepOnLidOnPowerClosed);//Suspend on lid close
-    connect(electric, &UseElectricWidget::requestSetAutoLockScreenOnPower, m_work, &PowerWorker::setLockScreenDelayOnPower);
+    connect(electric, &UseElectricWidget::requestSetScreenBlackDelayOnPower, m_work, &PowerWorker::setScreenBlackDelayOnPower); // 关闭显示器时间
+    connect(electric, &UseElectricWidget::requestSetSleepDelayOnPower, m_work, &PowerWorker::setSleepDelayOnPower);             // 进入待机时间
+    connect(electric, &UseElectricWidget::requestSetSleepOnLidOnPowerClosed, m_work, &PowerWorker::setSleepOnLidOnPowerClosed); //Suspend on lid close
+    connect(electric, &UseElectricWidget::requestSetAutoLockScreenOnPower, m_work, &PowerWorker::setLockScreenDelayOnPower);    // 进入锁屏时间
 
     //-----------------sp2 add-------------------
     connect(electric, &UseElectricWidget::requestSetLinePowerPressPowerBtnAction, m_work, &PowerWorker::setLinePowerPressPowerBtnAction);
@@ -205,16 +205,16 @@ void PowerModule::showUseElectric()
     m_frameProxy->pushWidget(this, electric);
 }
 
-void PowerModule::showUseBattery()
+void PowerModule::showUseBattery() // 用电池
 {
     qDebug() << Q_FUNC_INFO;
 
     UseBatteryWidget *battery = new UseBatteryWidget(m_model);
     m_frameProxy->pushWidget(this, battery);
 
-    connect(battery, &UseBatteryWidget::requestSetScreenBlackDelayOnBattery, m_work, &PowerWorker::setScreenBlackDelayOnBattery);
-    connect(battery, &UseBatteryWidget::requestSetSleepDelayOnBattery, m_work, &PowerWorker::setSleepDelayOnBattery);
-    connect(battery, &UseBatteryWidget::requestSetAutoLockScreenOnBattery, m_work, &PowerWorker::setLockScreenDelayOnBattery);
+    connect(battery, &UseBatteryWidget::requestSetScreenBlackDelayOnBattery, m_work, &PowerWorker::setScreenBlackDelayOnBattery); // 关闭显示器时间
+    connect(battery, &UseBatteryWidget::requestSetSleepDelayOnBattery, m_work, &PowerWorker::setSleepDelayOnBattery);             // 进入待机时间
+    connect(battery, &UseBatteryWidget::requestSetAutoLockScreenOnBattery, m_work, &PowerWorker::setLockScreenDelayOnBattery);    // 进入锁屏时间
 
     //-----------------sp2 add-------------------
     connect(battery, &UseBatteryWidget::requestSetBatteryPressPowerBtnAction, m_work, &PowerWorker::setBatteryPressPowerBtnAction);

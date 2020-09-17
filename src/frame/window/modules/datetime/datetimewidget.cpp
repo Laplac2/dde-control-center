@@ -56,6 +56,7 @@ DatetimeWidget::~DatetimeWidget()
 
 void DatetimeWidget::init()
 {
+    //    setStyleSheet("background-color: purple"); // zzz-color
     QList<QPair<QIcon, QString>> menuIconText;
     menuIconText = {
         { QIcon::fromTheme("dcc_time_zone"), tr("Timezone List")},

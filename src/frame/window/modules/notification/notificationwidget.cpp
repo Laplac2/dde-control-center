@@ -59,7 +59,8 @@ NotificationWidget::NotificationWidget(NotificationModel *model, QWidget *parent
     m_systemListView->setAutoScroll(false);
     m_systemListView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     m_systemListView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    m_systemListView->setViewportMargins(QMargins(0, 0, 13, 0));
+    m_systemListView->setViewportMargins(QMargins(0, 0, 13, 0)); // 二级菜单，系统通知选项距离右边边界15px     左，上，右，下
+    // m_systemListView->setStyleSheet("background-color: orange");    // zzz-color
 
     DStandardItem *systemitem = new DStandardItem(QIcon::fromTheme("dcc_general_purpose"), tr("System Notifications"));
 
@@ -74,16 +75,19 @@ NotificationWidget::NotificationWidget(NotificationModel *model, QWidget *parent
     m_lastIndex = m_sysmodel->indexFromItem(m_sysmodel->item(0));
     m_systemListView->setCurrentIndex(m_lastIndex);
 
-    QLabel *themeL = new QLabel(tr("App Notifications"));
+    QLabel *themeL = new QLabel(tr("App Notifications")); // 应用通知标签
     themeL->setMargin(3);
     m_centralLayout->addWidget(themeL);
     m_softwareListView->setResizeMode(QListView::Adjust);
     m_softwareListView->setMovement(QListView::Static);
     m_softwareListView->setModel(m_softwaremodel);
     m_softwareListView->setEditTriggers(QAbstractItemView:: NoEditTriggers);
-    m_softwareListView->setViewportMargins(QMargins(0, 0, 13, 0));
+    m_softwareListView->setViewportMargins(QMargins(0, 0, 13, 0)); // 二级菜单，应用通知选项距离右边边界15px   左，上，右，下
     m_softwareListView->setSpacing(0);
     m_softwareListView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    // m_softwareListView->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+    // m_softwareListView->setViewportMargins(QMargins(10, 10, 15, 10)); // 二级菜单，应用通知选项距离右边边界15px   左，上，右，下
+    // m_softwareListView->setStyleSheet("background-color: orange");    // zzz-color
 
     QScroller::grabGesture(m_softwareListView->viewport(), QScroller::LeftMouseButtonGesture);
     QScroller *scroller = QScroller::scroller(m_softwareListView->viewport());

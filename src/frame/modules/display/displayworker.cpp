@@ -268,6 +268,7 @@ void DisplayWorker::onlyMonitor(const QString &monName)
 
 void DisplayWorker::createConfig(const QString &config)
 {
+    qDebug() << "--> createConfig" << config;
     const auto reply = m_displayInter.SwitchMode(CUSTOM_MODE, config);
     QDBusPendingCallWatcher *watcher = new QDBusPendingCallWatcher(reply);
     watcher->setProperty("ConfigName", config);
@@ -277,6 +278,7 @@ void DisplayWorker::createConfig(const QString &config)
 
 void DisplayWorker::switchConfig(const QString &config)
 {
+    qDebug() << "--> switchConfig:" << config;
     switchMode(CUSTOM_MODE, config);
 }
 
@@ -294,7 +296,7 @@ void DisplayWorker::modifyConfigName(const QString &oldName, const QString &newN
 
 void DisplayWorker::switchMode(const int mode, const QString &name)
 {
-    qDebug() << Q_FUNC_INFO << mode << name;
+    qDebug() << "--> switchMode:" << mode << name;
 
     m_displayInter.SwitchMode(static_cast<uchar>(mode), name).waitForFinished();
 }

@@ -60,11 +60,11 @@ public Q_SLOTS:
 private:
     const QPixmap loadSvg(const QString &fileName, const QSize &size);
 private:
-    Dtk::Widget::DListView *m_softwareListView;
-    Dtk::Widget::DListView *m_systemListView;
+    Dtk::Widget::DListView *m_softwareListView; // 应用通知列表
+    Dtk::Widget::DListView *m_systemListView;   // 系统通知列表
     QStandardItemModel *m_sysmodel;
     QStandardItemModel *m_softwaremodel;
-    QVBoxLayout *m_centralLayout;
+    QVBoxLayout *m_centralLayout; // 二级菜单，应用通知
     dcc::notification::NotificationModel  *m_model;
     QString m_theme;
     QModelIndex m_lastIndex;

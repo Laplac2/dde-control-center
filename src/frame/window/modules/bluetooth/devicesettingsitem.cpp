@@ -224,6 +224,32 @@ BtStandardItem *DeviceSettingsItem::createStandardItem(DListView *parent)
 
 void DeviceSettingsItem::onDeviceStateChanged(const Device::State &state, bool connectState)
 {
+    // QString tip;
+
+    // switch (state) {
+    // case Device::StateUnavailable:
+    //     if (!connectState) {
+    //         tip = tr("Not connected");
+    //         setLoading(false);
+    //     }
+    //     break;
+    // case Device::StateAvailable:
+    //     setLoading(true);
+    //     break;
+    // case Device::StateConnected:
+    //     if (connectState) {
+    //         tip = tr("Connected");
+    //         setLoading(false);
+    //     }
+    //     break;
+    // case Device::StateDisconnecting:
+    //     tip = tr("Not connected");
+    //     break;
+    // default:
+    //     tip = "Error!";
+    //     break;
+    // }
+
     if (state == Device::StateAvailable) {
         setLoading(true);
         return;

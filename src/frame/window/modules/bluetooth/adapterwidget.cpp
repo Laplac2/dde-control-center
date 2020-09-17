@@ -200,7 +200,8 @@ void AdapterWidget::initConnect()
         Q_EMIT requestSetAlias(m_adapter, alias);
     });
 
-    connect(m_myDeviceListView, &DListView::clicked, this, [this](const QModelIndex & idx) {
+    connect(m_myDeviceListView, &DListView::clicked, this, [this](const QModelIndex &idx) {
+        qDebug() << "---> m_myDeviceListView click";
         m_otherDeviceListView->clearSelection();
         const QStandardItemModel *deviceModel = dynamic_cast<const QStandardItemModel *>(idx.model());
         if (!deviceModel) {
@@ -225,6 +226,7 @@ void AdapterWidget::initConnect()
 
     connect(m_otherDeviceListView, &DListView::clicked, this, [this](const QModelIndex & idx) {
         m_myDeviceListView->clearSelection();
+        qDebug() << "---> m_otherDeviceListView click";
         const QStandardItemModel *deviceModel = dynamic_cast<const QStandardItemModel *>(idx.model());
         if (!deviceModel) {
             return;
@@ -235,6 +237,7 @@ void AdapterWidget::initConnect()
         }
         for (auto it : m_deviceLists) {
             if (it && it->device() && it->getStandardItem() == item) {
+                qDebug() << "---> connect" << it->device();
                 it->requestConnectDevice(it->device(), m_adapter);
                 BtSortInfo info = it->getStandardItem()->sortInfo();
                 info.time = static_cast<int>(QDateTime::currentDateTime().toTime_t());
