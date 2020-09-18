@@ -49,7 +49,15 @@ NotificationWidget::NotificationWidget(NotificationModel *model, QWidget *parent
     , m_model(model)
 {
     setObjectName("notification");
+    // m_theme = m_model->getTheme();
 
+    // DStandardItem *systemitem = new DStandardItem(QIcon::fromTheme("dcc_general_purpose"), tr("System Notifications"));
+    // systemitem->setData(VListViewItemMargin, Dtk::MarginsRole);
+    // m_sysmodel->appendRow(systemitem);
+    // m_lastIndex = m_sysmodel->indexFromItem(m_sysmodel->item(0));
+
+    // m_systemListView->setModel(m_sysmodel);
+    // m_systemListView->setCurrentIndex(m_lastIndex);
     m_centralLayout->setMargin(0);
 
     m_systemListView->setMaximumHeight(50);
@@ -78,6 +86,8 @@ NotificationWidget::NotificationWidget(NotificationModel *model, QWidget *parent
     QLabel *themeL = new QLabel(tr("App Notifications")); // 应用通知标签
     themeL->setMargin(3);
     m_centralLayout->addWidget(themeL);
+    // themeL->setContentsMargins(20, 0, 10, 0);
+    // m_softwareListView->setModel(m_softwaremodel);
     m_softwareListView->setResizeMode(QListView::Adjust);
     m_softwareListView->setMovement(QListView::Static);
     m_softwareListView->setModel(m_softwaremodel);
@@ -100,8 +110,15 @@ NotificationWidget::NotificationWidget(NotificationModel *model, QWidget *parent
     //刷新数据
     refreshList();
 
+    // m_centralLayout->addWidget(m_systemListView);
+    // m_centralLayout->addWidget(themeL);
     m_centralLayout->addWidget(m_softwareListView);
+    // m_centralLayout->setMargin(0);
+    // m_centralLayout->setSpacing(0);
     setLayout(m_centralLayout);
+
+    // connect(m_systemListView, &DListView::clicked, this, &NotificationWidget::onSystemClicked);
+    // connect(m_systemListView, &DListView::activated, m_systemListView, &DListView::clicked);
     connect(m_softwareListView, &QListView::clicked, this, &NotificationWidget::onAppClicked);
     connect(m_softwareListView, &DListView::activated, m_softwareListView, &QListView::clicked);
 

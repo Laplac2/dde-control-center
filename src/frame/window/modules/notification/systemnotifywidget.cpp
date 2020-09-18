@@ -75,19 +75,21 @@ void SystemNotifyWidget::initUI()
     setFocusPolicy(Qt::FocusPolicy::ClickFocus);
     setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
-    QHBoxLayout *hLayoutDisturbMode = new QHBoxLayout;
+    QHBoxLayout *hLayoutDisturbMode = new QHBoxLayout; // 勿扰模式布局
     hLayoutDisturbMode->setContentsMargins(8, 0, 10, 0);
-    DLabel *lblDisturbMode = new DLabel(tr("Do Not Disturb"));
-    DFontSizeManager::instance()->bind(lblDisturbMode, DFontSizeManager::T5, QFont::DemiBold);
-    hLayoutDisturbMode->addWidget(lblDisturbMode, Qt::AlignLeft);
-    hLayoutDisturbMode->addWidget(m_btnDisturbMode, Qt::AlignRight);
+    DLabel *lblDisturbMode = new DLabel(tr("Do Not Disturb"));                                 // 勿扰模式
+    DFontSizeManager::instance()->bind(lblDisturbMode, DFontSizeManager::T5, QFont::DemiBold); // 字体大小和风格
+    hLayoutDisturbMode->addWidget(lblDisturbMode, Qt::AlignLeft);                              // 勿扰模式
+    hLayoutDisturbMode->addWidget(m_btnDisturbMode, Qt::AlignRight);                           // 勿扰模式开关
+    // hLayoutDisturbMode->setContentsMargins(10, 10, 10, 0);                                     // 布局与外边框距离
+
     mainLayout->addLayout(hLayoutDisturbMode);
 
     DTipLabel *lblTip = new DTipLabel(tr("App notifications will not be shown on desktop and the sounds will be silenced, but you can view all messages in the notification center."));
-    DFontSizeManager::instance()->bind(lblTip, DFontSizeManager::T8);
+    DFontSizeManager::instance()->bind(lblTip, DFontSizeManager::T8); // 字体大小和风格
     lblTip->adjustSize();
-    lblTip->setWordWrap(true);
-    lblTip->setContentsMargins(10, 5, 10, 5);
+    lblTip->setWordWrap(true);                // 换行显示
+    lblTip->setContentsMargins(10, 5, 10, 5); // 布局与外边框距离
     lblTip->setAlignment(Qt::AlignLeft);
     mainLayout->addWidget(lblTip);
 
@@ -108,6 +110,7 @@ void SystemNotifyWidget::initUI()
     m_btnShowInDock->addBackground();
     m_btnShowInDock->layout()->setContentsMargins(10, 0, 10, 0);
     mainLayout->addWidget(m_btnShowInDock);
+    // m_btnShowInDock->layout()->setContentsMargins(10, 10, 10, 10);
 
     m_settingsGrp->setVisible(m_btnDisturbMode->isChecked());
 }
