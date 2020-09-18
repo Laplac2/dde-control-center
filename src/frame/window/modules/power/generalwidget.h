@@ -62,13 +62,14 @@ public:
     void setModel(const dcc::power::PowerModel *model);
 
 private:
+    void initUi(); // 初始化界面
     //初始化使用到的 slider 控件
     void initSlider();
 
 private:
+    bool m_bIsBattery;
     QVBoxLayout *m_layout;
     //add Energy Saving Mode
-    QVBoxLayout *m_layEnergySavingMode;
     dcc::widgets::SwitchWidget *m_swLowPowerAutoIntoSaveEnergyMode;
     //---------------------------------------------
 
@@ -80,15 +81,12 @@ private:
     dcc::widgets::SwitchWidget *m_autoIntoSaveEnergyMode;
     dcc::widgets::SwitchWidget *m_wakeComputerNeedPassword;
     dcc::widgets::SwitchWidget *m_wakeDisplayNeedPassword;
-    QLabel *m_titleWidget;
     dcc::widgets::SwitchWidget *m_powerShowTimeToFull;
     dcc::widgets::PowerDisplayWidget *m_ShowTimeToFullTips;
 
     dcc::widgets::TitledSliderItem *m_monitorSleepOnPower = nullptr;
     dcc::widgets::TitledSliderItem *m_sldLowerBrightness = nullptr;
-    dcc::widgets::SettingsGroup *m_saveEnergySettingsGrp = nullptr;
-    TitleLabel *m_saveEnergySettingsLabel = nullptr;
-    QVBoxLayout *m_layPowerPlan = nullptr;
+
     DTK_WIDGET_NAMESPACE::DListView *m_powerplanListview = nullptr;
     QStandardItemModel *m_powerPlanModel = nullptr;
 
