@@ -85,7 +85,10 @@ public:
     void setPowerSaveMode(bool powerSaveMode);
 #endif
 
-    inline bool haveBettary() const { return m_haveBettary; }
+    inline bool haveBettary() const
+    {
+        return true;
+    }
     void setHaveBettary(bool haveBettary);
     void setBatteryPercentage(double batteryPercentage);
 

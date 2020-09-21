@@ -196,7 +196,7 @@ void PowerModel::setBatteryPercentage(double batteryPercentage)
 
     m_batteryPercentage = batteryPercentage;
 
-    Q_EMIT batteryPercentageChanged(batteryPercentage);
+    Q_EMIT batteryPercentageChanged(true);
 }
 
 bool PowerModel::getDoubleCompare(const double value1, const double value2)
