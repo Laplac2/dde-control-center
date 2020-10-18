@@ -46,7 +46,11 @@ DisplayModule::DisplayModule(FrameProxyInterface *frame, QObject *parent)
     , ModuleInterface(frame)
     , m_displayModel(nullptr)
     , m_displayWorker(nullptr)
+    , m_recognizeTimer(new QTimer)
 {
+    m_recognizeTimer->setInterval(5000);
+    m_recognizeTimer->setSingleShot(true);
+    connect(m_recognizeTimer, &QTimer::timeout, this, &DisplayModule::hideRecognize);
 }
 
 DisplayModule::~DisplayModule()
@@ -289,6 +293,8 @@ void DisplayModule::showCustomSettingDialog()
     } else {
         m_displayWorker->saveChanges();
     }
+    m_recognizeTimer->stop();
+    hideRecognize();
 
     dlg->deleteLater();
 }
@@ -438,10 +444,6 @@ void DisplayModule::showDisplayRecognize()
         // 所在显示器不存在显示框
         if (m_recognizeDialg.value(text) == nullptr) {
             RecognizeDialog *dialog = new RecognizeDialog(m_displayModel->monitorList()[0], text);
-            QTimer::singleShot(5000, this, [=]{
-                dialog->deleteLater();
-                m_recognizeDialg.remove(text);
-            });
             m_recognizeDialg[text] = dialog;
         }
     } else { // 拓展模式 or 自定义模式
@@ -450,14 +452,10 @@ void DisplayModule::showDisplayRecognize()
             if (m_recognizeDialg.value(monitor->name()) == nullptr) {
                 RecognizeDialog *dialog = new RecognizeDialog(monitor, monitor->name());
                 m_recognizeDialg[monitor->name()] = dialog;
-                QTimer::singleShot(5000, this, [=]{
-                    dialog->deleteLater();
-                    m_recognizeDialg.remove(monitor->name());
-                });
-                m_recognizeDialg[monitor->name()] = dialog;
             }
         }
     }
+    m_recognizeTimer->start();
 }
 
 void DisplayModule::showTouchRecognize()
@@ -477,10 +475,6 @@ void DisplayModule::showTouchRecognize()
         // 所在显示器不存在显示框
         if (m_recognizeDialg.value(text) == nullptr) {
             RecognizeDialog *dialog = new RecognizeDialog(m_displayModel->monitorList()[0], text);
-            QTimer::singleShot(5000, this, [=]{
-                dialog->deleteLater();
-                m_recognizeDialg.remove(text);
-            });
             m_recognizeDialg[text] = dialog;
         }
     } else { // 拓展模式 or 自定义模式
@@ -489,12 +483,18 @@ void DisplayModule::showTouchRecognize()
             if (m_recognizeDialg.value(monitor->name()) == nullptr) {
                 RecognizeDialog *dialog = new RecognizeDialog(monitor, monitor->name());
                 m_recognizeDialg[monitor->name()] = dialog;
-                QTimer::singleShot(5000, this, [=]{
-                    dialog->deleteLater();
-                    m_recognizeDialg.remove(monitor->name());
-                });
-                m_recognizeDialg[monitor->name()] = dialog;
             }
+        }
+    }
+    m_recognizeTimer->start();
+}
+
+void DisplayModule::hideRecognize()
+{
+    for (auto monitor : m_displayModel->monitorList()) {
+        if (m_recognizeDialg.value(monitor->name()) != nullptr) {
+            m_recognizeDialg[monitor->name()]->deleteLater();
+            m_recognizeDialg.remove(monitor->name());
         }
     }
 }
@@ -535,4 +535,19 @@ void DisplayModule::showRotate(Monitor *mon)
     qApp->restoreOverrideCursor();
     QCursor::setPos(m_displayWidget->getRotateBtnPos());
     dialog->deleteLater();
+}
+
+bool DisplayModule::event(QEvent *event)
+{
+    if (event->type() == QEvent::KeyPress) {
+        QKeyEvent *key_event = static_cast<QKeyEvent *>(event);
+        if (key_event->key() == Qt::Key_Escape) {
+            m_recognizeTimer->stop();
+            hideRecognize();
+            return false;
+        }
+        return true;
+    }
+
+    return QObject::event(event);
 }

@@ -66,6 +66,9 @@ public:
     void preInitialize(bool sync = false , FrameProxyInterface::PushType = FrameProxyInterface::PushType::Normal) override;
     QStringList availPage() const override;
 
+protected:
+    bool event(QEvent *event) override;
+
 private Q_SLOTS:
     void showScalingPage();
     void showResolutionDetailPage();
@@ -80,6 +83,7 @@ private Q_SLOTS:
     int showTimeoutDialog(dcc::display::Monitor *mon);
     void showDisplayRecognize();
     void showTouchRecognize();
+    void hideRecognize();
     void showMultiResolutionPage();
     void showMultiRefreshRatePage();
 
@@ -89,6 +93,7 @@ private:
     DisplayWidget *m_displayWidget{nullptr};
     MainWindow *m_pMainWindow = nullptr;
     QMap<QString, RecognizeDialog*> m_recognizeDialg;
+    QTimer *m_recognizeTimer;
 };
 
 } // namespace display
