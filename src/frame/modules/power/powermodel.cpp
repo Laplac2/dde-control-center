@@ -351,3 +351,11 @@ void PowerModel::setHibernate(bool hibernate)
         m_isHibernate = hibernate;
     }
 }
+
+void PowerModel::setmaxBacklightBrightness(const uint value)
+{
+    if (m_maxBacklightBrightness != value && value < 100) {
+        m_maxBacklightBrightness = value;
+        Q_EMIT maxBacklightBrightnessChanged(value);
+    }
+}

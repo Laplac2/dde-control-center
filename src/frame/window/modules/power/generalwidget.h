@@ -56,7 +56,7 @@ class GeneralWidget : public QWidget
 {
     Q_OBJECT
 public:
-    explicit GeneralWidget(QWidget *parent = nullptr, bool bIsBattery = false);
+    explicit GeneralWidget(QWidget *parent = nullptr, dcc::power::PowerModel *mode = nullptr, bool hasBattery = false);
     virtual ~GeneralWidget();
 
     void setModel(const dcc::power::PowerModel *model);
@@ -66,7 +66,7 @@ private:
     void initSlider(); // 初始化 slider 控件
 
 private:
-    bool m_bIsBattery;
+    bool m_hasBattery;
     QVBoxLayout *m_layout;
 
     /* Power Plan Settings */
@@ -112,6 +112,7 @@ private:
     enum {
         PowerPlanRole = Dtk::UserRole + 1,
     };
+    dcc::power::PowerModel *m_powerModel = nullptr;
 };
 }// namespace datetime
 }// namespace DCC_NAMESPACE

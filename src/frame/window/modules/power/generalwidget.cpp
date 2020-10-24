@@ -52,19 +52,20 @@ static QGSettings *GSettings()
     return &settings;
 }
 
-GeneralWidget::GeneralWidget(QWidget *parent, bool bIsBattery)
+GeneralWidget::GeneralWidget(QWidget *parent, PowerModel* mode, bool hasBattery)
     : QWidget(parent)
-    , m_bIsBattery(bIsBattery)
+    , m_hasBattery(hasBattery)
     , m_layout(new QVBoxLayout)
     , m_swLowPowerAutoIntoSaveEnergyMode(new SwitchWidget(tr("Auto power saving on low battery")))
     , m_autoIntoSaveEnergyMode(new SwitchWidget(tr("Auto power saving on battery")))
-    , m_sldLowerBrightness (new TitledSliderItem(tr("Decrease brightness"), this))
+    , m_sldLowerBrightness(new TitledSliderItem(tr("Decrease brightness"), this))
     , m_wakeComputerNeedPassword(new SwitchWidget(tr("Password is required to wake up the computer")))
     , m_wakeDisplayNeedPassword(new SwitchWidget(tr("Password is required to wake up the monitor")))
     , m_powerShowTimeToFull(new SwitchWidget(tr("Display capacity and remaining charging time")))
     , m_ShowTimeToFullTips(new PowerDisplayWidget(tr("Maximum capacity"), this))
     , m_showBatteryCapacity(new SwitchWidget(tr("Show battery capacity")))
     , m_batteryCapacity(new TitleValueItem)
+    , m_powerModel(mode)
 {
     initUi();
 
@@ -140,8 +141,10 @@ void GeneralWidget::initUi()
 
     energySavingGrp->appendItem(m_swLowPowerAutoIntoSaveEnergyMode);
     energySavingGrp->appendItem(m_autoIntoSaveEnergyMode);
-    energySavingGrp->appendItem(m_sldLowerBrightness);
-
+    int maxBacklight = static_cast<int>(m_powerModel->maxBacklightBrightness());
+    if (!maxBacklight) {
+        energySavingGrp->appendItem(m_sldLowerBrightness);
+    }
     energySavingLabel->setContentsMargins(10, 0, 10, 0);  // 节能设置label与外面布局的边距
     energySavingLayout->addWidget(energySavingLabel);     // 添加节能设置label
     energySavingLayout->addWidget(energySavingGrp);       // 添加节能设置
@@ -182,9 +185,9 @@ void GeneralWidget::initUi()
     batterySettingsGrp->appendItem(m_powerShowTimeToFull);
     batterySettingsGrp->appendItem(m_ShowTimeToFullTips);
 
-    batteryLabel->setVisible(m_bIsBattery);
-    m_powerShowTimeToFull->setVisible(m_bIsBattery);
-    m_ShowTimeToFullTips->setVisible(m_bIsBattery);
+    batteryLabel->setVisible(m_hasBattery);
+    m_powerShowTimeToFull->setVisible(m_hasBattery);
+    m_ShowTimeToFullTips->setVisible(m_hasBattery);
 
     batteryLabel->setContentsMargins(10, 0, 10, 0); // 电池设置label与外面布局的边距
     batteyLayout->addWidget(batteryLabel);          // 添加电池设置label

@@ -41,6 +41,7 @@ PowerWorker::PowerWorker(PowerModel *model, QObject *parent)
     : QObject(parent)
     , m_powerModel(model)
     , m_powerInter(new PowerInter("com.deepin.daemon.Power", "/com/deepin/daemon/Power", QDBusConnection::sessionBus(), this))
+    , m_displayInter(new DisplayInter("com.deepin.daemon.Display", "/com/deepin/daemon/Display", QDBusConnection::sessionBus(), this))
     , m_sysPowerInter(new SysPowerInter("com.deepin.system.Power", "/com/deepin/system/Power", QDBusConnection::systemBus(), this))
     , m_login1ManagerInter(new Login1ManagerInter("org.freedesktop.login1", "/org/freedesktop/login1", QDBusConnection::systemBus(), this))
 {
@@ -81,6 +82,7 @@ PowerWorker::PowerWorker(PowerModel *model, QObject *parent)
     //-------------------------------------------------------
     connect(m_sysPowerInter, &SysPowerInter::ModeChanged, m_powerModel, &PowerModel::setPowerPlan);
     connect(m_sysPowerInter, &SysPowerInter::IsHighPerformanceSupportedChanged, m_powerModel, &PowerModel::setHighPerformanceSupported);
+    connect(m_displayInter, &DisplayInter::MaxBacklightBrightnessChanged, m_powerModel, &PowerModel::setmaxBacklightBrightness);
 }
 
 void PowerWorker::active()
@@ -104,6 +106,7 @@ void PowerWorker::active()
     m_powerModel->setBatteryLidClosedAction(m_powerInter->batteryLidClosedAction());
     m_powerModel->setPowerPlan(m_sysPowerInter->mode());
     m_powerModel->setHighPerformanceSupported(m_sysPowerInter->isHighPerformanceSupported());
+    m_powerModel->setmaxBacklightBrightness(m_displayInter->maxBacklightBrightness());
 
     setScreenBlackDelayToModelOnPower(m_powerInter->linePowerScreenBlackDelay());
     setSleepDelayToModelOnPower(m_powerInter->linePowerSleepDelay());

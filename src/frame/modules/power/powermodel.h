@@ -137,6 +137,11 @@ public:
     inline bool isHighPerformanceSupported() const { return m_isHighPerformanceSupported; }
     void setHighPerformanceSupported(bool isHighSupport);
 
+    inline uint maxBacklightBrightness() const { return m_maxBacklightBrightness; }
+
+private Q_SLOTS:
+    void setmaxBacklightBrightness(const uint value);
+
 Q_SIGNALS:
     void sleepLockChanged(const bool sleepLock);
     void canSleepChanged(const bool canSleep);
@@ -173,6 +178,7 @@ Q_SIGNALS:
     void suspendChanged(bool suspendState);
     void powerPlanChanged(const QString &value);
     void highPerformaceChanged(bool value);
+    void maxBacklightBrightnessChanged(uint value);
 
 private:
     bool m_lidPresent;//以此判断是否为笔记本
@@ -211,6 +217,7 @@ private:
 
     QString m_powerPlan;
     bool m_isHighPerformanceSupported;
+    uint m_maxBacklightBrightness = 0;
 };
 
 }

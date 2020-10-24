@@ -26,6 +26,7 @@
 #ifndef POWERWORKER_H
 #define POWERWORKER_H
 
+#include <com_deepin_daemon_display.h>
 #include <com_deepin_daemon_power.h>
 #include <com_deepin_system_systempower.h>
 #include <org_freedesktop_login1.h>
@@ -34,6 +35,7 @@
 using PowerInter = com::deepin::daemon::Power;
 using SysPowerInter = com::deepin::system::Power;
 using Login1ManagerInter = org::freedesktop::login1::Manager;
+using DisplayInter = com::deepin::daemon::Display;
 
 namespace dcc{
 namespace power {
@@ -90,6 +92,7 @@ private:
 private:
     PowerModel *m_powerModel;
     PowerInter *m_powerInter;
+    DisplayInter *m_displayInter;
     SysPowerInter *m_sysPowerInter;
     Login1ManagerInter *m_login1ManagerInter;
 };

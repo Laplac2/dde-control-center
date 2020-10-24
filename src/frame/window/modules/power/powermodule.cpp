@@ -161,7 +161,7 @@ void PowerModule::showGeneral()
 {
     qDebug() << Q_FUNC_INFO;
 
-    GeneralWidget *general = new GeneralWidget(m_widget, m_widget->getIsUseBattety());
+    GeneralWidget *general = new GeneralWidget(m_widget, m_model, m_widget->getIsUseBattety());
     general->setVisible(false);
     general->setModel(m_model);
     m_frameProxy->pushWidget(this, general);
