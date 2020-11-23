@@ -44,15 +44,23 @@ using namespace DCC_NAMESPACE::update;
 UpdateSettings::UpdateSettings(UpdateModel *model, QWidget *parent)
     : ContentWidget(parent)
     , m_model(nullptr)
+    , m_mainLayout(new QVBoxLayout(this))
+    , m_autoCheckUpdate(new SwitchWidget(this))
+    , m_autoCleanCache(new SwitchWidget(this))
+    , m_updateNotify(new SwitchWidget(this))
+    , m_autoDownloadSwitch(new SwitchWidget(this))
+    , m_updateLbl(new DTipLabel(tr("Switch it on to automatically download the updates in wireless or wired network")))
 {
-    setTitle(tr("Update Settings"));
 
+    initUi();
+
+    setTitle(tr("Update Settings"));
     TranslucentFrame *widget = new TranslucentFrame;
 
-    QVBoxLayout *layout = new QVBoxLayout;
-    layout->setMargin(0);
-    layout->setSpacing(0);
-    layout->addSpacing(71);
+    QVBoxLayout *m_mainlayout = new QVBoxLayout;
+    m_mainlayout->setMargin(0);
+    m_mainlayout->setSpacing(0);
+    m_mainlayout->addSpacing(71);
 
     QLabel *autoLbl = new QLabel(QString("<h3>%1</h3>").arg(tr("Automatic Updating Settings")));
     autoLbl->setAlignment(Qt::AlignLeft);
@@ -60,20 +68,21 @@ UpdateSettings::UpdateSettings(UpdateModel *model, QWidget *parent)
     SettingsGroup *ug = new SettingsGroup;
     ug->getLayout()->setContentsMargins(0, 0, 0, 0);
 
-    m_autoCleanCache = new SwitchWidget;
+    // m_autoCleanCache = new SwitchWidget;
     //~ contents_path /update/Update Settings
     m_autoCleanCache->setTitle(tr("Clear Package Cache"));
 
-    m_autoCheckUpdate = new SwitchWidget;
+    // m_autoCheckUpdate = new SwitchWidget;
     //~ contents_path /update/Update Settings
     m_autoCheckUpdate->setTitle(tr("Check for Updates"));
 
-    m_updateNotify = new SwitchWidget;
+    // m_updateNotify = new SwitchWidget;
     m_updateNotify->setTitle(tr("Updates Notification"));
 
-    m_autoDownloadSwitch = new SwitchWidget;
+    // m_autoDownloadSwitch = new SwitchWidget;
     m_autoDownloadSwitch->setTitle(tr("Download Updates"));
-    m_updateLbl = new DTipLabel(tr("Switch it on to automatically download the updates in wireless or wired network"));
+
+    // m_updateLbl = new DTipLabel(tr("Switch it on to automatically download the updates in wireless or wired network"));
     m_updateLbl->setWordWrap(true);
     m_updateLbl->setAlignment(Qt::AlignLeft);
 
@@ -93,8 +102,8 @@ UpdateSettings::UpdateSettings(UpdateModel *model, QWidget *parent)
     m_freeTimeDownloadLbl->setAlignment(Qt::AlignLeft);
     m_setFreeTimeLbl = new QLabel(QString("<a style='color: blue; text-decoration: none;'; href=' '>%1</a>").arg("更改"));
 
-    layout->addWidget(autoLbl);
-    layout->addSpacing(8);
+    m_mainlayout->addWidget(autoLbl);
+    m_mainlayout->addSpacing(8);
 
 #ifndef DISABLE_SYS_UPDATE_SOURCE_CHECK
     if (SystemTypeName != "Server" && SystemTypeName != "Professional" && SystemTypeName != "Personal" && DSysInfo::DeepinDesktop != DSysInfo::deepinType()) {
@@ -103,16 +112,16 @@ UpdateSettings::UpdateSettings(UpdateModel *model, QWidget *parent)
         //~ contents_path /update/Update Settings
         m_sourceCheck->setTitle(tr("System Repository Detection"));
         sourceCheckGrp->appendItem(m_sourceCheck);
-        layout->addWidget(sourceCheckGrp);
-        layout->addSpacing(8);
+        m_mainlayout->addWidget(sourceCheckGrp);
+        m_mainlayout->addSpacing(8);
         DTipLabel *sourceCheckLbl = new DTipLabel(tr("Show a notification if system update repository has been modified"));
         sourceCheckLbl->setWordWrap(true);
         sourceCheckLbl->setAlignment(Qt::AlignLeft);
         QHBoxLayout *sourceCheckLblLayout = new QHBoxLayout;
         sourceCheckLblLayout->addSpacing(TipLeftInterver);
         sourceCheckLblLayout->addWidget(sourceCheckLbl);
-        layout->addLayout(sourceCheckLblLayout);
-        layout->addSpacing(8);
+        m_mainlayout->addLayout(sourceCheckLblLayout);
+        m_mainlayout->addSpacing(8);
     }
 #endif
 
@@ -122,28 +131,28 @@ UpdateSettings::UpdateSettings(UpdateModel *model, QWidget *parent)
     ug->appendItem(m_updateNotify);
     ug->appendItem(m_autoDownloadSwitch);
 
-    layout->addWidget(ug);
-    layout->addSpacing(8);
+    m_mainlayout->addWidget(ug);
+    m_mainlayout->addSpacing(8);
     QHBoxLayout *updateLblLayout = new QHBoxLayout;
     updateLblLayout->addSpacing(TipLeftInterver);
     updateLblLayout->addWidget(m_updateLbl);
-    layout->addLayout(updateLblLayout);
-    layout->addSpacing(15);
+    m_mainlayout->addLayout(updateLblLayout);
+    m_mainlayout->addSpacing(15);
 
     auto setDownloadTimeCtrlLayout = [&](SwitchWidget * setSwitch, DTipLabel * timeInfoLbl, QLabel * changeLbl) {
         SettingsGroup *timeDownloadGrp = new SettingsGroup;
         timeDownloadGrp->appendItem(setSwitch);
-        layout->addWidget(timeDownloadGrp);
-        layout->addSpacing(8);
+        m_mainlayout->addWidget(timeDownloadGrp);
+        m_mainlayout->addSpacing(8);
         QHBoxLayout *downloadLblLayout = new QHBoxLayout;
         downloadLblLayout->addSpacing(TipLeftInterver);
         downloadLblLayout->addWidget(timeInfoLbl);
         downloadLblLayout->addSpacing(30);
         downloadLblLayout->addWidget(changeLbl);
-        layout->addLayout(downloadLblLayout);
-        layout->addSpacing(8);
+        m_mainlayout->addLayout(downloadLblLayout);
+        m_mainlayout->addSpacing(8);
         //功能暂时隐藏
-        timeDownloadGrp->setVisible(false);
+        timeDownloadGrp->setVisible(true);
     };
 
     //定时下载更新布局
@@ -164,13 +173,13 @@ UpdateSettings::UpdateSettings(UpdateModel *model, QWidget *parent)
         smartTips->setText(tr("Switch it on to connect to the quickest mirror site automatically"));
         smartTips->setWordWrap(true);
         smartTips->setAlignment(Qt::AlignLeft);
-        layout->addWidget(smartMirrorGrp);
-        layout->addSpacing(8);
+        m_mainlayout->addWidget(smartMirrorGrp);
+        m_mainlayout->addSpacing(8);
         QHBoxLayout *smartTipsLayout = new QHBoxLayout;
         smartTipsLayout->addSpacing(TipLeftInterver);
         smartTipsLayout->addWidget(smartTips);
-        layout->addLayout(smartTipsLayout);
-        layout->addSpacing(15);
+        m_mainlayout->addLayout(smartTipsLayout);
+        m_mainlayout->addSpacing(15);
 
         m_updateMirrors = new NextPageWidget(nullptr, false);
         m_updateMirrors->setRightTxtWordWrap(true);
@@ -178,15 +187,15 @@ UpdateSettings::UpdateSettings(UpdateModel *model, QWidget *parent)
         m_updateMirrors->setTitle(tr("Mirror List"));
         m_mirrorGrp = new SettingsGroup;
         m_mirrorGrp->appendItem(m_updateMirrors);
-        layout->addWidget(m_mirrorGrp);
+        m_mainlayout->addWidget(m_mirrorGrp);
 
         connect(m_updateMirrors, &NextPageWidget::clicked, this, &UpdateSettings::requestShowMirrorsView);
         connect(m_smartMirrorBtn, &SwitchWidget::checkedChanged, this, &UpdateSettings::requestEnableSmartMirror);
     }
 
-    layout->addStretch();
+    m_mainlayout->addStretch();
 
-    widget->setLayout(layout);
+    widget->setLayout(m_mainlayout);
 
     setContent(widget);
 
@@ -210,6 +219,10 @@ UpdateSettings::UpdateSettings(UpdateModel *model, QWidget *parent)
 #endif
 
     setModel(model);
+}
+
+void UpdateSettings::initUi()
+{
 }
 
 void UpdateSettings::setModel(UpdateModel *model)

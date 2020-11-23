@@ -64,15 +64,20 @@ Q_SIGNALS:
 #endif
     void requestEnableSmartMirror(bool enable);
     void requestSetUpdateNotify(bool notify);
+
+private:
+    void initUi();
+
 private:
     dcc::update::UpdateModel *m_model;
+    QVBoxLayout *m_mainLayout;
 #ifndef DISABLE_SYS_UPDATE_SOURCE_CHECK
     dcc::widgets::SwitchWidget *m_sourceCheck;
 #endif
-    dcc::widgets::SwitchWidget *m_autoCheckUpdate; //系统启动自动检测更新配置
-    dcc::widgets::SwitchWidget *m_autoCleanCache; //自动清除缓存包配置
-    dcc::widgets::SwitchWidget *m_updateNotify; //更新提醒配置
-    dcc::widgets::SwitchWidget *m_autoDownloadSwitch; //自动下载更新配置
+    dcc::widgets::SwitchWidget *m_autoCheckUpdate;    // 系统启动自动检测更新配置
+    dcc::widgets::SwitchWidget *m_autoCleanCache;     // 自动清除缓存包配置
+    dcc::widgets::SwitchWidget *m_updateNotify;       // 更新提醒配置
+    dcc::widgets::SwitchWidget *m_autoDownloadSwitch; // 自动下载更新配置
     dcc::widgets::SwitchWidget *m_smartMirrorBtn;
     dcc::widgets::NextPageWidget *m_updateMirrors;
     DTK_WIDGET_NAMESPACE::DTipLabel *m_updateLbl;
