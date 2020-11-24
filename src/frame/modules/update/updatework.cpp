@@ -130,6 +130,9 @@ UpdateWorker::UpdateWorker(UpdateModel *model, QObject *parent)
     connect(m_updateInter, &__Updater::AutoDownloadUpdatesChanged, m_model, &UpdateModel::setAutoDownloadUpdates);
     connect(m_updateInter, &__Updater::MirrorSourceChanged, m_model, &UpdateModel::setDefaultMirror);
     connect(m_updateInter, &UpdateInter::AutoCheckUpdatesChanged, m_model, &UpdateModel::setAutoCheckUpdates);
+    // connect(m_updateInter, &UpdateInter::AutoCheckUpdatesChanged, m_model, &UpdateModel::setAutoCheckSystemUpdates);
+    // connect(m_updateInter, &UpdateInter::AutoCheckUpdatesChanged, m_model, &UpdateModel::setAutoCheckAppUpdates);
+    // connect(m_updateInter, &UpdateInter::AutoCheckUpdatesChanged, m_model, &UpdateModel::setAutoCheckSecureUpdates);
     connect(m_updateInter, &UpdateInter::UpdateNotifyChanged, m_model, &UpdateModel::setUpdateNotify);
 
     connect(m_powerInter, &__Power::OnBatteryChanged, this, &UpdateWorker::setOnBattery);
@@ -669,9 +672,24 @@ void UpdateWorker::downloadAndDistUpgrade()
     }
 }
 
-void UpdateWorker::setAutoCheckUpdates(const bool autocheckUpdates)
+void UpdateWorker::setAutoCheckUpdates(const bool autoCheckUpdates)
 {
-    m_updateInter->SetAutoCheckUpdates(autocheckUpdates);
+    m_updateInter->SetAutoCheckUpdates(autoCheckUpdates);
+}
+
+void UpdateWorker::setAutoCheckSystemUpdates(const bool autoCheckSystemUpdates)
+{
+    // m_updateInter->SetAutoCheckSystemUpdates(autoCheckSystemUpdates);
+}
+
+void UpdateWorker::setAutoCheckAppUpdates(const bool autoCheckAppUpdates)
+{
+    // m_updateInter->SetAutoCheckAppUpdates(autoCheckAppUpdates);
+}
+
+void UpdateWorker::setAutoCheckSecureUpdates(const bool autoCheckSecureUpdates)
+{
+    // m_updateInter->SetAutoCheckSecureUpdates(autoCheckSecureUpdates);
 }
 
 void UpdateWorker::setAutoDownloadUpdates(const bool &autoDownload)

@@ -56,11 +56,11 @@ public:
 
 Q_SIGNALS:
     void requestSetAutoCheckUpdates(const bool autocheckUpdate);
-    void requestSetAutoCheckSystemUpdate(const bool &autoUpdate);
-    void requestSetAutoCheckAppUpdate(const bool &autoUpdate);
-    void requestSetAutoCheckSecureUpdate(const bool &autoUpdate);
+    void requestSetAutoCheckSystemUpdates(const bool &autoUpdate);
+    void requestSetAutoCheckAppUpdates(const bool &autoUpdate);
+    void requestSetAutoCheckSecureUpdates(const bool &autoUpdate);
     void requestSetUpdateNotify(bool notify);
-    void requestSetAutoDownloadUpdate(const bool &autoUpdate);
+    void requestSetAutoDownloadUpdates(const bool &autoUpdate);
     void requestSetAutoCleanCache(const bool autoClean);
 #ifndef DISABLE_SYS_UPDATE_SOURCE_CHECK
     void requestSetSourceCheck(const bool check);

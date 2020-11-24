@@ -172,11 +172,11 @@ void UpdateSettings::initUi()
 void UpdateSettings::initConnection()
 {
     connect(m_autoCheckUpdate, &SwitchWidget::checkedChanged, this, &UpdateSettings::requestSetAutoCheckUpdates);
-    connect(m_autoCheckSystemUpdate, &SwitchWidget::checkedChanged, this, &UpdateSettings::requestSetAutoCheckSystemUpdate);
-    connect(m_autoCheckAppUpdate, &SwitchWidget::checkedChanged, this, &UpdateSettings::requestSetAutoCheckAppUpdate);
-    connect(m_autoCheckSecureUpdate, &SwitchWidget::checkedChanged, this, &UpdateSettings::requestSetAutoCheckSecureUpdate);
+    connect(m_autoCheckSystemUpdate, &SwitchWidget::checkedChanged, this, &UpdateSettings::requestSetAutoCheckSystemUpdates);
+    connect(m_autoCheckAppUpdate, &SwitchWidget::checkedChanged, this, &UpdateSettings::requestSetAutoCheckAppUpdates);
+    connect(m_autoCheckSecureUpdate, &SwitchWidget::checkedChanged, this, &UpdateSettings::requestSetAutoCheckSecureUpdates);
     connect(m_updateNotify, &SwitchWidget::checkedChanged, this, &UpdateSettings::requestSetUpdateNotify);
-    connect(m_autoDownloadUpdate, &SwitchWidget::checkedChanged, this, &UpdateSettings::requestSetAutoDownloadUpdate);
+    connect(m_autoDownloadUpdate, &SwitchWidget::checkedChanged, this, &UpdateSettings::requestSetAutoDownloadUpdates);
     //connect(m_setTimerLbl, &QLabel::linkActivated,);
     //connect(m_setFreeTimeLbl, &QLabel::linkActivated,);
     connect(m_autoCleanCache, &SwitchWidget::checkedChanged, this, &UpdateSettings::requestSetAutoCleanCache);
@@ -196,7 +196,49 @@ void UpdateSettings::initConnection()
 
 void UpdateSettings::setModel(UpdateModel *model)
 {
+    if (m_model == model)
+        return;
+
     m_model = model;
+
+    connect(model, &UpdateModel::autoCheckUpdatesChanged, m_autoCheckUpdate, &SwitchWidget::setChecked);
+    connect(model, &UpdateModel::autoCheckUpdatesChanged, m_autoCheckSystemUpdate, &SwitchWidget::setVisible);
+    connect(model, &UpdateModel::autoCheckUpdatesChanged, m_autoCheckAppUpdate, &SwitchWidget::setVisible);
+    connect(model, &UpdateModel::autoCheckUpdatesChanged, m_autoCheckSecureUpdate, &SwitchWidget::setVisible);
+    connect(model, &UpdateModel::autoCheckSystemUpdatesChanged, m_autoCheckSystemUpdate, &SwitchWidget::setChecked);
+    connect(model, &UpdateModel::autoCheckAppUpdatesChanged, m_autoCheckAppUpdate, &SwitchWidget::setChecked);
+    connect(model, &UpdateModel::autoCheckSecureUpdatesChanged, m_autoCheckSecureUpdate, &SwitchWidget::setChecked);
+    connect(model, &UpdateModel::updateNotifyChanged, m_updateNotify, &SwitchWidget::setChecked);
+    connect(model, &UpdateModel::updateNotifyChanged, m_autoDownloadUpdate, &SwitchWidget::setVisible);
+    connect(model, &UpdateModel::updateNotifyChanged, m_autoDownloadUpdateTips, &DTipLabel::setVisible);
+    connect(model, &UpdateModel::autoDownloadUpdatesChanged, m_autoDownloadUpdate, &SwitchWidget::setChecked);
+    connect(model, &UpdateModel::autoCleanCacheChanged, m_autoCleanCache, &SwitchWidget::setChecked);
+
+    m_autoCheckUpdate->setChecked(model->autoCheckUpdates());
+
+    m_autoCheckSystemUpdate->setChecked(model->autoCheckSystemUpdates());
+    m_autoCheckSystemUpdate->setVisible(model->autoCheckUpdates());
+
+    m_autoCheckAppUpdate->setChecked(model->autoCheckAppUpdates());
+    m_autoCheckAppUpdate->setVisible(model->autoCheckUpdates());
+
+    m_autoCheckSecureUpdate->setChecked(model->autoCheckSecureUpdates());
+    m_autoCheckSecureUpdate->setVisible(model->autoCheckUpdates());
+
+    m_updateNotify->setChecked(model->updateNotify());
+
+    m_autoDownloadUpdate->setChecked(model->autoDownloadUpdates());
+    m_autoDownloadUpdate->setVisible(model->updateNotify());
+    m_autoDownloadUpdateTips->setVisible(model->updateNotify());
+
+    m_autoCleanCache->setChecked(m_model->autoCleanCache());
+
+#ifndef DISABLE_SYS_UPDATE_SOURCE_CHECK
+    if (SystemTypeName != "Server" && SystemTypeName != "Professional" && SystemTypeName != "Personal" && DSysInfo::DeepinDesktop != DSysInfo::deepinType()) {
+        connect(model, &UpdateModel::sourceCheckChanged, m_sourceCheck, &SwitchWidget::setChecked);
+        m_sourceCheck->setChecked(model->sourceCheck());
+    }
+#endif
 
     if (SystemTypeName != "Professional" && SystemTypeName != "Personal" && DSysInfo::DeepinDesktop != DSysInfo::deepinType()) {
         auto setDefaultMirror = [this](const MirrorInfo & mirror) {
@@ -218,26 +260,4 @@ void UpdateSettings::setModel(UpdateModel *model)
         connect(model, &UpdateModel::smartMirrorSwitchChanged, this, setMirrorListVisible);
         setMirrorListVisible(model->smartMirrorSwitch());
     }
-
-    m_autoDownloadUpdate->setChecked(model->autoDownloadUpdates());
-
-    connect(model, &UpdateModel::autoDownloadUpdatesChanged, m_autoDownloadUpdate, &SwitchWidget::setChecked);
-    connect(model, &UpdateModel::autoCleanCacheChanged, m_autoCleanCache, &SwitchWidget::setChecked);
-    connect(model, &UpdateModel::autoCheckUpdatesChanged, m_autoCheckUpdate, &SwitchWidget::setChecked);
-    connect(model, &UpdateModel::updateNotifyChanged, m_updateNotify, &SwitchWidget::setChecked);
-    connect(model, &UpdateModel::updateNotifyChanged, m_autoDownloadUpdate, &SwitchWidget::setVisible);
-    connect(model, &UpdateModel::updateNotifyChanged, m_autoDownloadUpdateTips, &DTipLabel::setVisible);
-
-    m_autoDownloadUpdate->setVisible(model->updateNotify());
-    m_autoCheckUpdate->setChecked(model->autoCheckUpdates());
-    m_updateNotify->setChecked(model->updateNotify());
-    m_autoCleanCache->setChecked(m_model->autoCleanCache());
-    m_autoDownloadUpdateTips->setVisible(model->updateNotify());
-
-#ifndef DISABLE_SYS_UPDATE_SOURCE_CHECK
-    if (SystemTypeName != "Server" && SystemTypeName != "Professional" && SystemTypeName != "Personal" && DSysInfo::DeepinDesktop != DSysInfo::deepinType()) {
-        connect(model, &UpdateModel::sourceCheckChanged, m_sourceCheck, &SwitchWidget::setChecked);
-        m_sourceCheck->setChecked(model->sourceCheck());
-    }
-#endif
 }

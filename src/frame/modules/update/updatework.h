@@ -82,7 +82,10 @@ public Q_SLOTS:
     void resumeDownload();
     void distUpgrade();
     void downloadAndDistUpgrade();
-    void setAutoCheckUpdates(const bool autocheckUpdates);
+    void setAutoCheckUpdates(const bool autoCheckUpdates);
+    void setAutoCheckSystemUpdates(const bool autoCheckSystemUpdates);
+    void setAutoCheckAppUpdates(const bool autoCheckAppUpdates);
+    void setAutoCheckSecureUpdates(const bool autoCheckSecureUpdates);
     void setAutoCleanCache(const bool autoCleanCache);
     void setAutoDownloadUpdates(const bool &autoDownload);
     void setMirrorSource(const MirrorInfo &mirror);

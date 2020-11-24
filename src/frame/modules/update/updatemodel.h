@@ -127,6 +127,16 @@ public:
 
     inline bool autoCheckUpdates() { return m_autoCheckUpdates; }
     void setAutoCheckUpdates(bool autoCheckUpdates);
+
+    inline bool autoCheckSystemUpdates() { return m_autoCheckSystemUpdates; }
+    void setAutoCheckSystemUpdates(bool autoCheckSystemUpdates);
+
+    inline bool autoCheckAppUpdates() { return m_autoCheckAppUpdates; }
+    void setAutoCheckAppUpdates(bool autoCheckAppUpdates);
+
+    inline bool autoCheckSecureUpdates() { return m_autoCheckSecureUpdates; }
+    void setAutoCheckSecureUpdates(bool autoCheckSecureUpdates);
+
     bool smartMirrorSwitch() const { return m_smartMirrorSwitch; }
     void setSmartMirrorSwitch(bool smartMirrorSwitch);
 
@@ -184,6 +194,9 @@ Q_SIGNALS:
     void autoCleanCacheChanged(const bool autoCleanCache);
     void netselectExistChanged(const bool netselectExist);
     void autoCheckUpdatesChanged(const bool autoCheckUpdates);
+    void autoCheckSystemUpdatesChanged(const bool autoCheckSystemUpdate);
+    void autoCheckAppUpdatesChanged(const bool autoCheckAppUpdate);
+    void autoCheckSecureUpdatesChanged(const bool autoCheckSecureUpdate);
     void recoverBackingUpChanged(bool recoverBackingUp);
     void recoverConfigValidChanged(bool recoverConfigValid);
     void recoverRestoringChanged(bool recoverRestoring);
@@ -212,6 +225,9 @@ private:
     bool m_autoCleanCache;
     bool m_autoDownloadUpdates;
     bool m_autoCheckUpdates;
+    bool m_autoCheckSystemUpdates;
+    bool m_autoCheckAppUpdates;
+    bool m_autoCheckSecureUpdates;
     bool m_updateNotify;
     bool m_smartMirrorSwitch;
     QString m_mirrorId;

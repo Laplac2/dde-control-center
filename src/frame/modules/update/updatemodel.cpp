@@ -257,6 +257,36 @@ void UpdateModel::setAutoCheckUpdates(bool autoCheckUpdates)
     Q_EMIT autoCheckUpdatesChanged(autoCheckUpdates);
 }
 
+void UpdateModel::setAutoCheckSystemUpdates(bool autoCheckSystemUpdates)
+{
+    if (autoCheckSystemUpdates == m_autoCheckSystemUpdates)
+        return;
+
+    m_autoCheckSystemUpdates = autoCheckSystemUpdates;
+
+    Q_EMIT autoCheckSystemUpdatesChanged(autoCheckSystemUpdates);
+}
+
+void UpdateModel::setAutoCheckAppUpdates(bool autoCheckAppUpdates)
+{
+    if (autoCheckAppUpdates == m_autoCheckAppUpdates)
+        return;
+
+    m_autoCheckAppUpdates = autoCheckAppUpdates;
+
+    Q_EMIT autoCheckAppUpdatesChanged(autoCheckAppUpdates);
+}
+
+void UpdateModel::setAutoCheckSecureUpdates(bool autoCheckSecureUpdates)
+{
+    if (autoCheckSecureUpdates == m_autoCheckSecureUpdates)
+        return;
+
+    m_autoCheckSecureUpdates = autoCheckSecureUpdates;
+
+    Q_EMIT autoCheckSecureUpdatesChanged(autoCheckSecureUpdates);
+}
+
 void UpdateModel::setSmartMirrorSwitch(bool smartMirrorSwitch)
 {
     if (m_smartMirrorSwitch == smartMirrorSwitch) return;
