@@ -273,9 +273,9 @@ void AccountsWorker::onUserListChanged(const QStringList &userList)
             addUser(path);
             if (count > 50 && first) {
                 first = false;
-                break; // 第一次打开用户列表只加载50个用户信息
+                break; // 第一次打开用户列表只加载51个用户信息
             } else if (count > 2 && !first) {
-                break; // 滚动条每滑动一次，加载2个用户
+                break; // 滚动条每滑动一次，加载3个用户
             }
         }
     }
