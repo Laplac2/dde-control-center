@@ -201,10 +201,8 @@ void AccountsWidget::addUser(User *user, bool t1)
         }
     });
 
-    if (t1) {
-        handleRequestBack(ActionOption::ClickCancel);
+    if (t1)
         return;
-    }
 
     auto path = user->currentAvatar();
     path = path.startsWith("file://") ? QUrl(path).toLocalFile() : path;
@@ -238,7 +236,7 @@ void AccountsWidget::addUser(User *user, bool t1)
             }
         }
     }
-}
+    }
 
 void AccountsWidget::removeUser(User *user)
 {
