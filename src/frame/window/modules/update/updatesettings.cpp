@@ -198,10 +198,6 @@ void UpdateSettings::setModel(UpdateModel *model)
 {
     m_model = model;
 
-    auto setAutoDownload = [ this ](const bool &autoDownload) {
-        m_autoDownloadUpdate->setChecked(autoDownload);
-    };
-
     if (SystemTypeName != "Professional" && SystemTypeName != "Personal" && DSysInfo::DeepinDesktop != DSysInfo::deepinType()) {
         auto setDefaultMirror = [this](const MirrorInfo & mirror) {
             m_updateMirrors->setValue(mirror.m_name);
@@ -223,9 +219,9 @@ void UpdateSettings::setModel(UpdateModel *model)
         setMirrorListVisible(model->smartMirrorSwitch());
     }
 
-    setAutoDownload(model->autoDownloadUpdates());
+    m_autoDownloadUpdate->setChecked(model->autoDownloadUpdates());
 
-    connect(model, &UpdateModel::autoDownloadUpdatesChanged, this, setAutoDownload);
+    connect(model, &UpdateModel::autoDownloadUpdatesChanged, m_autoDownloadUpdate, &SwitchWidget::setChecked);
     connect(model, &UpdateModel::autoCleanCacheChanged, m_autoCleanCache, &SwitchWidget::setChecked);
     connect(model, &UpdateModel::autoCheckUpdatesChanged, m_autoCheckUpdate, &SwitchWidget::setChecked);
     connect(model, &UpdateModel::updateNotifyChanged, m_updateNotify, &SwitchWidget::setChecked);
